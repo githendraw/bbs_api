@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<head>
+    <title>Invoice A</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet" />
+    <style type="text/css" media="print">
+        html {
+            zoom: 0.7;
+            margin-left: 1cm;
+            margin-right: 1cm;
+            margin-top: 1cm;
+            font-family: 'Roboto';
+            font-size: 10px;
+        }
+        
+        @page {
+            size: A4;
+            margin: 0px;
+            -webkit-print-color-adjust: exact;
+        }
+        
+        @media print {
+            .new-page {
+                page-break-before: always;
+                margin-top: 10px;
+            }
+        }
+        
+        table {
+            border: none;
+        }
+    </style>
+</head>
+
+<body class="A4" style="font-family: Arial Unicode MS, Helvetica, Sans-Serif">
+    <div>
+        <table style="table-layout: fixed; width: 100%">
+            <tbody>
+                <tr>
+                    <td width="70%">
+                        <div style="display: flex; width: 100%">
+                            <img style="width: 200px" src="data:image/png;base64,<%=img%>" alt="Company Logo" style="max-width: 100%" />
+                        </div>
+                    </td>
+                    <td width="30%">
+                        <div style="padding-bottom: 0px">
+                            <p style="font-weight: bold;font-size:12px"></p>
+                        </div>
+                        <div style="font-weight: 400;font-size:10px">
+                            <br />
+                            <br />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="display: flex; width: 100%; background: #0089ff; color: #fff; justify-content: center">
+            <p style="padding:5px;text-align: center;font-weight: bold;">INVOICE</p>
+        </div>
+    </div>
+    <div>
+        <table style="table-layout: fixed; width: 100%;border: 1px solid #000;margin-bottom: 10px;">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="padding-bottom: 10px">
+                            <strong style="text-transform: uppercase">To</strong>
+                        </div>
+                        <div>
+                            <%=invoice.contact_name %> <br />
+                                <%=invoice.contact_bill_address %> <br />
+                                    <br />
+                        </div>
+                    </td>
+                    <td width="15%"></td>
+                    <td>
+                        <div style="padding-bottom: 10px">
+                            <strong>No #: <%=invoice.invoice_id%></strong>
+                        </div>
+                        <div style="display: block; width: 100%">
+                            <div style="display: inline-block; width: 30%">Tanggal</div>
+                            <div style="display: inline-block; width: 3%">:</div>
+                            <div style="display: inline-block; width: 57%">
+                                <%=moment(invoice.invoice_date).format('DD-MM-YYYY')%>
+                            </div>
+                            <div style="display: inline-block; width: 30%">Hal</div>
+                            <div style="display: inline-block; width: 3%">:</div>
+                            <div style="display: inline-block; width: 57%">Tagihan Jasa Pengiriman</div>
+                            <div style="display: inline-block; width: 30%">Payment</div>
+                            <div style="display: inline-block; width: 3%">:</div>
+                            <div style="display: inline-block; width: 57%">Cash / Transfer</div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <% 
+    var page = Math.floor(detail.length/18); 
+    page = detail.length%18 > 0 ? page+1: page; 
+    detail = detail.sort((a,b)=>a.shipment_detail.shipment_date.getTime()-b.shipment_detail.shipment_date.getTime());
+    %>
+        <% for(var x=0; x < page; x++) {%>
+            <% if(x > 0){ %>
+                <p>&nbsp;</p>
+                <div class="new-page"></div>
+                <div style="margin-bottom: 1cm;">&nbsp;</div>
+                <% } %>
+                    <div style="font-size: 8px">
+                        <table cellspacing="0" cellpadding="0" class="table" style="table-layout: fixed; width: 100%; border: 1px solid rgb(96, 95, 95);">
+                            <thead>
+                                <tr style="background: #0089ff;height: 30px;color: #fff;">
+                                    <th style="width: 5%; border: 2px solid #0089ff;">No</th>
+                                    <th style="width: 7%">Date</th>
+                                    <th style="width: 20%">Shipment</th>
+                                    <th style="width: 5%">Origin</th>
+                                    <th style="width: 5%">Dest</th>
+                                    <th style="width: 3%">Koli</th>
+                                    <th style="width: 5%">UOM</th>
+                                    <th style="width: 5%">Harga</th>
+                                    <th style="width: 13%">Receive By</th>
+                                    <th style="width: 5%">Biaya Kirim</th>
+                                    <th style="width: 5%">Lain-Lain</th>
+                                    <th style="width: 10%">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% var start = x*18 %>
+                                    <% for(var i=start; i < detail.length; i++) {
+                                if(i<start+18){
+                                %>
+                                        <tr>
+                                            <td align="center">
+                                                <%=i+1%>
+                                            </td>
+                                            <td>
+                                                <%=moment(detail[i].shipment_detail.shipment_date).format('DD-MM-YYYY')%>
+                                            </td>
+                                            <td style="font-size: 8px;">
+                                                <div style="display: block; width: 100%">
+                                                    <strong>
+                                    <%=detail[i].shipment_detail.shipment_awbm%>
+                                </strong>
+                                                </div>
+                                                <div style="display: block; width: 100%">Pengirim :
+                                                    <%=detail[i].shipment_detail.partner_name%>
+                                                </div>
+                                                <div style="display: block; width: 100%">Penerima :
+                                                    <%=detail[i].shipment_detail.receiver_name%>
+                                                </div>
+                                            </td>
+                                            <td align="center">
+                                                <%=detail[i].shipment_detail.origin%>
+                                            </td>
+                                            <td align="center">
+                                                <%=detail[i].shipment_detail.destination%>
+                                            </td>
+                                            <td align="center">
+                                                <%=detail[i].shipment_detail.qty%>
+                                            </td>
+                                            <td align="center">
+                                                <%=detail[i].shipment_detail.weight%>
+                                                    <%=detail[i].shipment_detail.uom_id%>
+                                            </td>
+                                            <td align="center">
+                                                <%=((detail[i].shipment_detail.charge / detail[i].shipment_detail.weight_invoice).toFixed(0)).toString().replace(
+                                /\B(?=(\d{3})+(?!\d))/g, "," )%>
+                                            </td>
+                                            <td>
+                                                <%=detail[i].shipment_detail.received_by%>,
+                                                    <%=moment(detail[i].shipment_detail.received_date).format('DD-MM-YYYY HH:mm')%>
+                                            </td>
+                                            <td align="right">
+                                                <%=detail[i].shipment_detail.charge.toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," )%>
+                                            </td>
+                                            <td align="right">
+                                                <%=(detail[i].shipment_detail.pickup_charge+detail[i].shipment_detail.packing_charge+detail[i].shipment_detail.others_charge+detail[i].shipment_detail.insurance_value).toString().replace(
+                                /\B(?=(\d{3})+(?!\d))/g, "," )%>
+                                            </td>
+                                            <td align="right">
+                                                <%=detail[i].shipment_detail.sub_total.toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," )%>
+                                                    &nbsp;
+                                            </td>
+                                        </tr>
+                                        <%}}%>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } %>
+                        <div>
+                            <table style="table-layout: fixed; width: 100%; border-collapse: collapse">
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="3" colspan="3">
+                                            <div style="width: 100%">#
+                                                <%=invoice.amount_text%> Rupiah #
+                                            </div>
+                                            <div>
+                                                <%=paymentInfo[0].note%> <br />
+                                                    <br />
+
+                                                    <% for(var p=0; p < paymentInfo.length; p++) {%>
+                                                        <div>
+                                                            Nomor Rekening :
+                                                            <%=paymentInfo[p].no_rek1%><br />
+                                                                <%=paymentInfo[p].bank_1%><br />
+                                                                    <%=paymentInfo[p].bank_br_1%>
+                                                        </div>
+                                                        <br>
+                                                        <% } %>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 5px;">Sub Total</td>
+                                        <td align="right" width="20%">
+                                            <%=invoice.subtotal.toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," )%>
+                                        </td>
+                                    </tr>
+                                    <% if (invoice.tax_percent>0) {%>
+                                        <tr>
+                                            <td>Ppn (
+                                                <%=invoice.tax_percent%> %)
+                                            </td>
+                                            <td align="right" width="20%">
+                                                <%=invoice.tax_amount.toFixed(0).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," )%>
+                                            </td>
+                                        </tr>
+                                        <%}%>
+                                            <tr>
+                                                <td style="border-top: 1px solid #000">Total</td>
+                                                <td align="right" width="20%" style="border-top: 1px solid #000">
+                                                    <strong>
+                                <%=invoice.amount.toFixed(0).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," )%>
+                            </strong>
+                                                </td>
+                                            </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <div style="padding-top: -15px; padding-bottom: 0px">
+                                <div>
+                                    <strong>Keterangan</strong>
+                                </div>
+                                <p style=" line-height: 14pt">
+                                    <%=invoice.description%>
+                                </p>
+                            </div>
+                        </div>
+                        <div style="padding-top: 10px">
+                            <table style="table-layout: fixed; width: 100%">
+                                <tbody>
+                                    <tr>
+                                        <td width="70%">
+                                            <div style="padding-bottom: 10px">
+                                                <strong>Approved By</strong>
+                                            </div>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+
+                                            <div style="padding-bottom: 10px">
+
+
+                                                <strong>
+                                <%=company?.invoice_approve%>
+                            </strong>
+                                            </div>
+                                        </td>
+                                        <td width="15%"></td>
+                                        <td>
+                                            <div style="padding-bottom: 10px">
+                                                <strong>Prepared By</strong>
+                                            </div>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+
+                                            <div style="padding-bottom: 10px">
+
+
+                                                <strong>
+                                <%=user?.name%>
+                            </strong>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+</body>
+
+</html>

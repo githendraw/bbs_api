@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<head>
+    <title>Invoice A</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css" />
+    <style type="text/css">
+        html {
+            zoom: 0.7;
+            margin-left: 1cm;
+            margin-right: 1cm;
+            margin-top: 1cm;
+        }
+        
+        @page {
+            size: A4;
+            margin: 0px;
+        }
+        
+        .table th {
+            background-color: #3886BE;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .table-bordered td,
+        .table-bordered th {
+            border: 1px solid #3886BE !important;
+            border-left: 1px solid rgb(27, 27, 27) !important;
+            border-right: 1px solid rgb(27, 27, 27) !important;
+        }
+        
+        .table-bordered {
+            border: 0 !important;
+        }
+        
+        table.table.table-bordered.table-responsive {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body class="A4" style="font-family: Arial Unicode MS, Helvetica, Sans-Serif">
+    <div style="padding-top: 1cm">
+        <table style="table-layout: fixed; width: 100%">
+            <tbody>
+                <tr>
+                    <td width="100%">
+                        <div style="display: flex; width: 100%">
+                            <img style="width: 200px" src="data:image/png;base64,<%=img%>" alt="Company Logo" style="max-width: 100%" />
+                        </div>
+                        <div style="display: flex; width: 100%; background: #0089ff; color: #fff; margin-top: 16px;">
+                            <div style="font-weight: bold;padding: 4px;">INVOICE</div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <div style="padding-top: 1cm; padding-bottom: 1cm;font-size: 10pt;">
+        <table style="table-layout: fixed; width: 100%;">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="padding-bottom: 10px">
+                            <strong style="text-transform: uppercase">To</strong>
+                        </div>
+                        <div>
+                            <%=invoice.contact_name %> <br />
+                                <%=invoice.contact_bill_address %> <br />
+                                    <br />
+                        </div>
+                    </td>
+                    <td width="15%"></td>
+                    <td>
+                        <div style="padding-bottom: 10px">
+                            <strong>No #: <%=invoice.invoice_id%></strong>
+                        </div>
+                        <div style="display:block;width:100%">
+                            <div style="display:inline-block;width: 30%;">
+                                Tanggal
+                            </div>
+                            <div style="display:inline-block;width: 3%;">
+                                :
+                            </div>
+                            <div style="display:inline-block;width: 57%;">
+                                <%=moment(invoice.invoice_date).format('DD-MM-YYYY')%>
+                            </div>
+                            <div style="display:inline-block;width: 30%;">
+                                Hal
+                            </div>
+                            <div style="display:inline-block;width: 3%;">
+                                :
+                            </div>
+                            <div style="display:inline-block;width: 57%;">
+                                Tagihan Jasa Pengiriman
+                            </div>
+                            <div style="display:inline-block;width: 30%;">
+                                Payment
+                            </div>
+                            <div style="display:inline-block;width: 3%;">
+                                :
+                            </div>
+                            <div style="display:inline-block;width: 57%;">
+                                Cash / Transfer
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="font-size:9pt ;">
+        <table class="table" style="table-layout: fixed; width: 100%">
+            <thead>
+                <tr>
+                    <th style="width:5%;padding: 3px;font-weight: 700;">No</th>
+                    <th style="width:6%;padding: 3px;font-weight: 700;">Tanggal</th>
+                    <th style="width:8%;padding: 3px;">SMU</th>
+                    <th style="width:3%;padding: 3px;"> Koli</th>
+                    <th style="width:3%;padding: 3px;">Kg</th>
+                    <th style="width:5%;padding: 3px;">Asal</th>
+                    <th style="width:5%;padding: 3px;">Tujuan</th>
+                    <th style="width:5%;padding: 3px;">Tarif</th>
+                    <th style="width:5%;padding: 3px;">Charges</th>
+                    <th style="width:5%;padding: 3px;">Admin</th>
+                    <th style="width:5%;padding: 3px;">Ppn</th>
+                    <th style="width:8%;padding: 3px;">Total</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0; i < detail.length; i++) {%>
+                    <tr>
+                        <td align="center">
+                            <%=i+1%>
+                        </td>
+                        <td>
+                            <%=moment(detail[i].smu_detail.smu_date).format('DD-MM-YYYY')%>
+                        </td>
+                        <td>
+
+                            <%=detail[i].smu_detail.smu_no%>
+
+
+                        </td>
+                        <td align="center">
+                            <%=detail[i].smu_detail.qty%>
+                        </td>
+                        <td align="center">
+                            <%=detail[i].smu_detail.weight%>
+                        </td>
+                        <td align="center">
+                            <%=detail[i].smu_detail.host_origin%>
+                        </td>
+                        <td align="center">
+                            <%=detail[i].smu_detail.host_destination%>
+                        </td>
+                        <td align="right">
+                            <%=detail[i].smu_detail.price_wh.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+                        </td>
+                        <td align="right">
+                            <%=detail[i].smu_detail.handling_wh.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+                        </td>
+                        <td align="right">
+                            <%=detail[i].smu_detail.admin_wh.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+                        </td>
+                        <td align="right">
+                            <%=detail[i].smu_detail.total_tax_wh.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+                        </td>
+
+                        <td align="right">
+                            <%=detail[i].smu_detail.total_wh.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+                        </td>
+                    </tr>
+                    <%}%>
+            </tbody>
+        </table>
+    </div>
+    <div style="border-top: 1px solid #eee">
+        <table style="table-layout: fixed; width: 100%; border-collapse: collapse">
+            <tbody>
+                <tr style="font-size: 10pt; border-top: 2px solid #eee;">
+
+                    <td rowspan="3" colspan="3">
+                        <div>
+                            <%=paymentInfo?.note%> <br> Nomor Rekening :
+                                <%=paymentInfo?.no_rek1%><br>
+                                    <%=paymentInfo?.bank_1%><br>
+                                        <%=paymentInfo?.bank_br_1%>
+                        </div>
+                        <div style="width:100% ;">
+                            #
+                            <%=invoice.amount_text%> Rupiah #
+                        </div>
+                    </td>
+
+                </tr>
+
+                <tr style="font-size: 10pt;">
+                    <td style="border-top: 2px solid #eee;">
+                        Total
+                    </td>
+                    <td align="right" width="20%" style="border-top: 2px solid #eee;">
+                        <%=invoice.amount.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <div style="padding-top: 1cm; padding-bottom: 1cm">
+            <div>
+                <strong>Note</strong>
+            </div>
+            <p style="font-size: 10pt; line-height: 14pt">
+            </p>
+        </div>
+    </div>
+    <div style="padding-top: 1cm">
+        <table style="table-layout: fixed; width: 100%">
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="padding-bottom: 10px">
+                            <strong>Approved By</strong>
+                        </div>
+                        </br>
+                        </br>
+                        </br>
+                        </br>
+                        </br>
+                        <div style="padding-bottom: 10px">
+
+
+                            <strong><%=company?.invoice_approve%></strong>
+                        </div>
+                    </td>
+                    <td width="15%"></td>
+                    <td>
+                        <div style="padding-bottom: 10px">
+                            <strong>Prepared By</strong>
+                        </div>
+                        </br>
+                        </br>
+                        </br>
+                        </br>
+
+
+                        <div style="padding-bottom: 10px">
+
+
+                            <strong><%=user?.name%></strong>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+image: node:14.15
+pipelines:
+  branches:
+   master:
+    - step:
+        name: Deploy to production
+        deployment: production
+        script:
+          - echo "Deploying to server"
+          - pipe: atlassian/ssh-run:0.2.2
+            variables:
+              PORT: '22'
+              SSH_USER: 'root'
+              SERVER: '203.194.114.38'
+              COMMAND: |
+                cd /home/BBS/bbs_api
+                sh deploy.sh
