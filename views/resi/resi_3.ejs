@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Print Resi</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
+        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+        <style type="text/css">
+          html {
+            zoom: 0.67;
+            margin-left: 1cm;
+            margin-top: 1cm;
+            margin-right: 1cm;
+          }
+
+          .lead {
+            font-family: "Verdana";
+            font-weight: bold;
+          }
+          .value {
+            font-family: "Verdana";
+          }
+          .value-big {
+            font-family: "Verdana";
+            font-weight: bold;
+            font-size: large;
+          }
+          .td {
+            vertical-align: top;
+          }
+
+          @page {
+            size: legal;
+            margin: 0px;
+          }
+
+          @media print {
+            @page {
+              size: 21cm 33cm;
+            }
+          }
+
+          body {
+            font-size: 8pt !important;
+            top: 0 !important;
+            font-family: "Verdana", sans-serif;
+          }
+
+          .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+          }
+
+          .logo-section {
+            width: 35%;
+          }
+
+          .company-section {
+            width: 30%;
+            text-align: center;
+          }
+
+          .company-name {
+            font-weight: bold;
+            font-size: 12pt;
+            text-transform: uppercase;
+          }
+
+          .company-subtitle {
+            font-size: 9pt;
+            margin-bottom: 5px;
+          }
+
+          .company-tagline {
+            font-weight: bold;
+            font-size: 9pt;
+            margin-bottom: 5px;
+          }
+
+          .company-address {
+            font-size: 8pt;
+            margin-bottom: 3px;
+          }
+
+          .company-contact {
+            font-size: 8pt;
+            margin-bottom: 2px;
+          }
+
+          .barcode-section {
+            width: 35%;
+            text-align: right;
+          }
+
+          .shipment-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+          }
+
+          .shipment-info-table th,
+          .shipment-info-table td {
+            border: 1px solid #000;
+            padding: 5px 8px;
+            text-align: left;
+            vertical-align: middle;
+          }
+
+          .shipment-info-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            width: 15%;
+          }
+
+          .main-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+          }
+
+          .sender-receiver-section {
+            width: 48%;
+          }
+
+          .receiver-section {
+            width: 48%;
+          }
+
+          .section-box {
+            border: 1px solid #000;
+            padding: 10px;
+            margin-bottom: 10px;
+          }
+
+          .section-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 9pt;
+          }
+
+          .info-row {
+            margin-bottom: 5px;
+          }
+
+          .info-label {
+            display: inline-block;
+            width: 35%;
+            font-weight: bold;
+          }
+
+          .info-value {
+            display: inline-block;
+            width: 60%;
+          }
+
+          .remarks-box {
+            border: 2px solid #000;
+            padding: 10px;
+            margin-bottom: 15px;
+            background-color: #ffffcc;
+          }
+
+          .remarks-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-decoration: underline;
+          }
+
+          .remarks-text {
+            font-weight: bold;
+            line-height: 1.4;
+          }
+
+          .payment-section {
+            width: 48%;
+          }
+
+          .payment-table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+
+          .payment-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid #ddd;
+          }
+
+          .payment-label {
+            font-weight: bold;
+            width: 50%;
+          }
+
+          .payment-value {
+            text-align: right;
+            width: 50%;
+          }
+
+          .total-row {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            font-size: 11pt;
+          }
+
+          .confirmation-text {
+            font-weight: bold;
+            margin: 15px 0;
+            text-align: center;
+            line-height: 1.5;
+          }
+
+          .legal-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 7pt;
+            line-height: 1.4;
+          }
+
+          .footer-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 20px;
+            page-break-inside: avoid;
+          }
+
+          .signature-section {
+            text-align: center;
+          }
+
+          .signature-box {
+            width: 150px;
+            height: 60px;
+            border: 1px dashed #000;
+            margin-bottom: 5px;
+          }
+
+          .signature-label {
+            font-size: 8pt;
+          }
+
+          .print-info {
+            font-size: 7pt;
+            color: #666;
+          }
+
+          .qrcode-section {
+            text-align: right;
+          }
+
+          hr.page-break {
+            border-top: 2px dashed #000;
+            margin: 20px 0;
+            page-break-after: always;
+          }
+        </style>
+    </head>
+    <body class="legal">
+      <% for(var j=0; j < 3; j++) {%>
+        <div class="header-section">
+          <!-- Logo Section -->
+          <div class="logo-section">
+            <table style="width: 100%;">
+              <tr>
+                <td><img style="width: 4cm;" src="data:image/png;base64,<%=img%>"></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Company Section -->
+          <div class="company-section">
+            <div class="company-name">PAKET EXPRESS</div>
+            <div class="company-subtitle">CARGO DAN LOGISTICS SERVICES</div>
+            <div class="company-tagline">KE SELURUH INDONESIA (DARAT, LAUT, UDARA)</div>
+            <div class="company-address"><%=company.address1%></div>
+            <div class="company-contact">Jemput Antar Alamat (Door to Door)</div>
+            <div class="company-contact"><%=company.phone_1%></div>
+            <div class="company-contact"><%=company.email%></div>
+            <% if (company.website) { %>
+              <div class="company-contact"><%=company.website%></div>
+            <% } %>
+          </div>
+
+          <!-- Barcode Section -->
+          <div class="barcode-section">
+            <svg id="barcode-<%=j%>" style="width: 100%;"></svg>
+          </div>
+        </div>
+
+        <!-- Shipment Info Table -->
+        <table class="shipment-info-table">
+          <tr>
+            <th>No. Airwaybill</th>
+            <td colspan="2"><%=shipment.shipment_awbm%></td>
+            <th>Pelanggan</th>
+            <td colspan="3"><%=shipment.partner_name%></td>
+          </tr>
+          <tr>
+            <th>Asal</th>
+            <td colspan="2"><%=shipment.originname%></td>
+            <th>Tujuan</th>
+            <td colspan="3"><%=shipment.destinationname%></td>
+          </tr>
+          <tr>
+            <th>Koli</th>
+            <td style="width: 10%;"><%=shipment.qty%></td>
+            <th>Berat</th>
+            <td style="width: 10%;"><%=shipment.weight_actual%> <%=shipment.uom_id%></td>
+            <th>Volume</th>
+            <td style="width: 10%;"><%=shipment.weight_vol%> <%=shipment.uom_id%></td>
+          </tr>
+        </table>
+
+        <!-- Main Content: Sender & Receiver -->
+        <div class="main-content">
+          <!-- Sender Section -->
+          <div class="sender-receiver-section">
+            <div class="section-box">
+              <div class="section-title">PENGIRIM : <%=shipment.partner_name.toUpperCase()%> - <%=shipment.originname.toUpperCase()%></div>
+              <div class="info-row">
+                <span class="info-label">Telp Pengirim:</span>
+                <span class="info-value"><%=shipment.partner_phone1%></span>
+              </div>
+              <hr style="margin: 10px 0;">
+              <div class="info-row">
+                <span class="info-label">Tanda Tangan Pengirim:</span>
+              </div>
+              <div class="signature-box" style="width: 100%; height: 40px;"></div>
+              <div class="info-row" style="margin-top: 10px;">
+                <span class="info-label">Tanda Tangan Petugas:</span>
+              </div>
+              <div class="signature-box" style="width: 100%; height: 40px;"></div>
+              <div class="info-row" style="margin-top: 10px;">
+                <span class="info-value"><%=shipment.pickup_by%> <%=moment(shipment.shipment_date).format('DD-MM-YYYY HH:mm:ss')%></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Receiver Section -->
+          <div class="receiver-section">
+            <div class="section-box">
+              <div class="section-title">PENERIMA : <%=shipment.receiver_name.toUpperCase()%></div>
+              <div class="info-row">
+                <span class="info-label">Alamat:</span>
+                <span class="info-value"><%=shipment.receiver_address1%></span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Telp Penerima:</span>
+                <span class="info-value"><%=shipment.receiver_phone1%></span>
+              </div>
+              <hr style="margin: 10px 0;">
+              <div class="info-row">
+                <span class="info-label">Jenis Kiriman:</span>
+                <span class="info-value" style="font-weight: bold;"><%=shipment.shipment_type_id || 'KIRIMAN'%></span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Kiriman Via:</span>
+                <span class="info-value" style="font-weight: bold;"><%=shipment.service_id%></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Remarks Section -->
+        <div class="remarks-box">
+          <div class="remarks-title">Remarks</div>
+          <div class="remarks-text">
+            <%=shipment.specialinst || 'TANPA ASURANSI'%>
+            <br><br>
+            <span style="text-transform: uppercase;">TLG JGN DIBANTING/DITINDIH BARANG BERAT</span>
+          </div>
+        </div>
+
+        <!-- Payment & Cost Section -->
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
+          <div class="payment-section">
+            <div class="section-box">
+              <table class="payment-table">
+                <tr>
+                  <td class="payment-label">Cara Pembayaran</td>
+                  <td class="payment-value"><%=shipment.payment_type || 'TRANSFER'%></td>
+                </tr>
+                <tr>
+                  <td class="payment-label">Jenis Barang</td>
+                  <td class="payment-value"><%=shipment.itemdesc%></td>
+                </tr>
+                <tr>
+                  <td class="payment-label">Biaya Kirim</td>
+                  <td class="payment-value">Rp. <%=currencyFormatter.format(shipment.charge, {code: 'IDR'}).replace('Rp', '')%></td>
+                </tr>
+                <% if (shipment.tax_amount > 0) { %>
+                <tr>
+                  <td class="payment-label">PPh 23</td>
+                  <td class="payment-value">(Rp. <%=currencyFormatter.format(shipment.tax_amount, {code: 'IDR'}).replace('Rp', '')%>)</td>
+                </tr>
+                <% } %>
+                <tr>
+                  <td class="payment-label">Biaya Lain-lain</td>
+                  <td class="payment-value">Rp. <%=currencyFormatter.format(shipment.pickup_charge || 0, {code: 'IDR'}).replace('Rp', '')%></td>
+                </tr>
+                <tr>
+                  <td class="payment-label">Biaya Asuransi</td>
+                  <td class="payment-value">Rp. <%=currencyFormatter.format(shipment.insurance || 0, {code: 'IDR'}).replace('Rp', '')%></td>
+                </tr>
+                <tr>
+                  <td class="payment-label">Biaya Admin</td>
+                  <td class="payment-value">Rp. <%=currencyFormatter.format(shipment.packing_charge || 0, {code: 'IDR'}).replace('Rp', '')%></td>
+                </tr>
+                <tr class="total-row">
+                  <td class="payment-label">Total</td>
+                  <td class="payment-value">Rp. <%=currencyFormatter.format(shipment.total, {code: 'IDR'}).replace('Rp', '')%></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirmation & Legal Text -->
+        <div class="confirmation-text">
+          Kiriman ini sudah saya / kami terima dengan baik dan benar
+        </div>
+
+        <div class="legal-text">
+          Pengirim menyatakan bahwa semua informasi pada Surat Tanda Terima Titipan adalah BENAR dan NERIMA seluruh syarat pengiriman.
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer-section">
+          <div style="width: 40%;">
+            <div style="display: flex;">
+              <div class="signature-section" style="width: 33%;">
+                <div>Nama</div>
+                <div class="signature-box"></div>
+              </div>
+              <div class="signature-section" style="width: 33%;">
+                <div>Tanggal</div>
+                <div class="signature-box"></div>
+              </div>
+              <div class="signature-section" style="width: 33%;">
+                <div>Jam</div>
+                <div class="signature-box"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="signature-section" style="width: 30%;">
+            <div>Tanda tangan dan Stempel</div>
+            <div class="signature-box" style="width: 120px; height: 60px; margin: 0 auto;"></div>
+          </div>
+
+          <div style="width: 30%; text-align: right;">
+            <div id="qrcode-<%=j%>" style="display: inline-block;"></div>
+          </div>
+        </div>
+
+        <!-- Print Info -->
+        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 7pt; color: #666;">
+          <div>print on : <%=moment().format('YYYY-MM-DD HH:mm:ss')%></div>
+          <div>File <%=j+1%> = Pengirim</div>
+        </div>
+
+        <% if (j < 2) { %>
+          <hr class="page-break">
+        <% } %>
+      <% } %>
+
+      <!-- QRCode Library -->
+      <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+      <script>
+        // Generate Barcode
+        <% for(var j=0; j < 3; j++) {%>
+          JsBarcode("#barcode-<%=j%>", "<%=shipment.shipment_awbm%>", {
+            format: "CODE128",
+            width: 1.5,
+            height: 40,
+            displayValue: true,
+            fontSize: 12,
+            margin: 5
+          });
+
+          // Generate QR Code
+          new QRCode(document.getElementById("qrcode-<%=j%>"), {
+            text: "<%=shipment.shipment_awbm%>",
+            width: 80,
+            height: 80,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        <% } %>
+      </script>
+    </body>
+</html>

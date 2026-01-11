@@ -53,6 +53,8 @@ const form = {
                 }
                 if (req.query.format && req.query.format == 'RESI_1') {
                     pg = ejs.compile(fs.readFileSync(__dirname + '/../views/resi/resi_1.ejs', 'utf8'));
+                } else if (req.query.format && req.query.format == 'RESI_3') {
+                    pg = ejs.compile(fs.readFileSync(__dirname + '/../views/resi/resi_3.ejs', 'utf8'));
                 } else {
                     pg = ejs.compile(fs.readFileSync(__dirname + '/../views/resi/resi_2.ejs', 'utf8'));
                 }
