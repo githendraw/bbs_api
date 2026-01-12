@@ -5,7 +5,7 @@ container_name="bbs_be"
 #   git reset --hard && git pull
    docker build --no-cache -t bbs_be:latest .
 # Check if the container exists
-if [ "$(docker ps -q -f name=${container_name})" ]; then
+if [ "$(docker ps -a -q -f name=${container_name})" ]; then
     # Container exists, proceed with Git operations and Docker commands
     docker stop ${container_name}
     docker rm ${container_name}
