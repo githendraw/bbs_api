@@ -25,7 +25,7 @@
 
         body {
             font-family: 'Roboto', Arial, sans-serif;
-            font-size: 8pt;
+            font-size: 9pt;
             color: #000;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
@@ -47,12 +47,12 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 8pt;
+            font-size: 9pt;
         }
 
         table td, table th {
             border: 1px solid #000;
-            padding: 1px 3px;
+            padding: 2px 4px;
             vertical-align: middle;
         }
 
@@ -62,7 +62,7 @@
 
         .label {
             font-weight: bold;
-            font-size: 7pt;
+            font-size: 8pt;
         }
 
         .text-center {
@@ -71,26 +71,26 @@
 
         .logo-img {
             width: auto;
-            height: 30px;
+            height: 35px;
             display: block;
         }
 
         .company-title {
-            font-size: 9pt;
+            font-size: 10pt;
             font-weight: bold;
             text-align: center;
         }
 
         .company-subtitle {
-            font-size: 7pt;
+            font-size: 8pt;
             text-align: center;
-            line-height: 1.1;
+            line-height: 1.2;
         }
 
         .company-address {
-            font-size: 6pt;
+            font-size: 7pt;
             text-align: center;
-            line-height: 1.0;
+            line-height: 1.1;
         }
 
         .total-row {
@@ -101,14 +101,14 @@
         .remarks-section {
             border: 1px solid #000;
             padding: 2px;
-            font-size: 7pt;
+            font-size: 8pt;
             font-weight: bold;
             text-align: center;
             background-color: #ffffcc !important;
         }
 
         .footer-info {
-            font-size: 6pt;
+            font-size: 7pt;
             color: #666;
         }
     </style>
@@ -130,7 +130,7 @@
                         <div class="company-address"><%=company.address1%> | WA: <%=company.phone_1%></div>
                     </td>
                     <td style="width: 25%; vertical-align: bottom; text-align: right;">
-                        <div style="font-size: 9pt; font-weight: bold; color: #000;">ISI TIDAK DIPERIKSA</div>
+                        <div style="font-size: 10pt; font-weight: bold; color: #000;">ISI TIDAK DIPERIKSA</div>
                     </td>
                 </tr>
             </table>
@@ -227,15 +227,15 @@
             <table style="margin-bottom: 1px;">
                 <tr>
                     <td style="width: 30%;" class="text-center">
-                        <div style="font-size: 8pt;">Tanda Tangan Pengirim</div>
+                        <div style="font-size: 9pt;">Tanda Tangan Pengirim</div>
                     </td>
                     <td style="width: 5%;"></td>
                     <td style="width: 30%;" class="text-center">
-                        <div style="font-size: 8pt;">Tanda Tangan Petugas</div>
-                        <div style="font-size: 7pt;"><%=shipment.pickup_by%></div>
+                        <div style="font-size: 9pt;">Tanda Tangan Petugas</div>
+                        <div style="font-size: 8pt;"><%=shipment.pickup_by%></div>
                     </td>
                     <td style="width: 35%;" class="text-center">
-                        <div style="font-size: 8pt;">Tanda Tangan & Stempel</div>
+                        <div style="font-size: 9pt;">Tanda Tangan & Stempel</div>
                     </td>
                 </tr>
             </table>
@@ -244,10 +244,10 @@
             <table class="no-border" style="margin-bottom: 1px;">
                 <tr>
                     <td style="width: 45%;" class="text-center">
-                        <div style="font-size: 8pt;">Nama</div>
+                        <div style="font-size: 9pt;">Nama</div>
                     </td>
                     <td style="width: 15%;" class="text-center">
-                        <div style="font-size: 8pt;">Tanggal</div>
+                        <div style="font-size: 9pt;">Tanggal</div>
                     </td>
                     <td style="width: 40%;" class="text-center">
                         <div id="qrcode-<%=j%>" style="display: inline-block;"></div>
@@ -259,11 +259,11 @@
             <table class="no-border">
                 <tr>
                     <td style="width: 75%;" class="text-center">
-                        <div style="font-size: 7pt; font-weight: bold;">Kiriman ini sudah saya/kami terima dengan baik dan benar</div>
-                        <div style="font-size: 6pt;">Pengirim menyatakan bahwa semua informasi pada Surat Tanda Terima Titipan adalah BENAR</div>
+                        <div style="font-size: 8pt; font-weight: bold;">Kiriman ini sudah saya/kami terima dengan baik dan benar</div>
+                        <div style="font-size: 7pt;">Pengirim menyatakan bahwa semua informasi pada Surat Tanda Terima Titipan adalah BENAR</div>
                     </td>
                     <td style="width: 25%;" class="text-center">
-                        <div style="font-size: 8pt;">Jam</div>
+                        <div style="font-size: 9pt;">Jam</div>
                     </td>
                 </tr>
             </table>
@@ -285,8 +285,8 @@
         <% for(var j=0; j < 3; j++) {%>
             new QRCode(document.getElementById("qrcode-<%=j%>"), {
                 text: "<%=shipment.shipment_awbm%>",
-                width: 40,
-                height: 40,
+                width: 45,
+                height: 45,
                 colorDark: "#000000",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.M
