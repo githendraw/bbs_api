@@ -24,7 +24,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            font-size: 8pt;
+            font-size: 13pt;
             color: #000;
         }
 
@@ -32,24 +32,24 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 1mm;
+            gap: 1.5mm;
         }
 
         .receipt {
             border: 2px solid #000;
-            padding: 1.5mm;
+            padding: 2mm;
             page-break-inside: avoid;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 7pt;
+            font-size: 12pt;
         }
 
         table td, table th {
             border: 1px solid #000;
-            padding: 1px 2px;
+            padding: 3px 5px;
             vertical-align: middle;
         }
 
@@ -66,32 +66,32 @@
         }
 
         .logo-img {
-            width: 30px;
-            height: 30px;
+            width: auto;
+            height: 50px;
         }
 
         .company-title {
-            font-size: 9pt;
+            font-size: 16pt;
             font-weight: bold;
             text-align: center;
         }
 
         .company-subtitle {
-            font-size: 7pt;
+            font-size: 12pt;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .company-address {
+            font-size: 10pt;
             text-align: center;
             line-height: 1.1;
         }
 
-        .company-address {
-            font-size: 6pt;
-            text-align: center;
-            line-height: 1;
-        }
-
         .signature-box {
-            height: 20px;
+            height: 30px;
             border: 1px solid #000;
-            margin-top: 1px;
+            margin-top: 3px;
         }
 
         .qrcode-container {
@@ -105,15 +105,15 @@
 
         .remarks-section {
             border: 1px solid #000;
-            padding: 2px;
-            font-size: 7pt;
+            padding: 3px;
+            font-size: 12pt;
             font-weight: bold;
             text-align: center;
             background-color: #ffffcc;
         }
 
         .footer-info {
-            font-size: 6pt;
+            font-size: 10pt;
             color: #666;
         }
     </style>
@@ -125,10 +125,10 @@
             <!-- Header -->
             <table class="no-border" style="margin-bottom: 1px;">
                 <tr>
-                    <td style="width: 15%;" class="text-center">
+                    <td style="width: 25%;" class="text-center">
                         <img class="logo-img" src="data:image/png;base64,<%=img%>">
                     </td>
-                    <td style="width: 55%;">
+                    <td style="width: 50%;">
                         <div class="company-title">PAKET EXPRESS</div>
                         <div class="company-subtitle">CARGO DAN LOGISTICS SERVICES</div>
                         <div class="company-subtitle">KE SELURUH INDONESIA (DARAT, LAUT, UDARA)</div>
@@ -137,8 +137,8 @@
                         <div class="company-address">WA Center: <%=company.phone_1%></div>
                         <div class="company-address">Email: <%=company.email%><% if (company.website) { %> | Website: <%=company.website%><% } %></div>
                     </td>
-                    <td style="width: 30%;" class="text-center">
-                        <div style="font-size: 9pt; font-weight: bold; color: #000;">ISI TIDAK DIPERIKSA</div>
+                    <td style="width: 25%; vertical-align: bottom; text-align: right;">
+                        <div style="font-size: 13pt; font-weight: bold; color: #000;">ISI TIDAK DIPERIKSA</div>
                     </td>
                 </tr>
             </table>
@@ -236,18 +236,15 @@
             <table style="margin-bottom: 1px;">
                 <tr>
                     <td style="width: 30%;" class="text-center">
-                        <div style="font-size: 7pt;">Tanda Tangan Pengirim</div>
-                        <div class="signature-box"></div>
+                        <div style="font-size: 12pt;">Tanda Tangan Pengirim</div>
                     </td>
                     <td style="width: 5%;"></td>
                     <td style="width: 30%;" class="text-center">
-                        <div style="font-size: 7pt;">Tanda Tangan Petugas</div>
-                        <div class="signature-box"></div>
-                        <div style="font-size: 6pt; margin-top: 1px;"><%=shipment.pickup_by%></div>
+                        <div style="font-size: 12pt;">Tanda Tangan Petugas</div>
+                        <div style="font-size: 11pt; margin-top: 2px;"><%=shipment.pickup_by%></div>
                     </td>
                     <td style="width: 35%;" class="text-center">
-                        <div style="font-size: 7pt;">Tanda tangan dan Stempel</div>
-                        <div class="signature-box" style="width: 80px; margin: 1px auto;"></div>
+                        <div style="font-size: 12pt;">Tanda tangan dan Stempel</div>
                     </td>
                 </tr>
             </table>
@@ -256,12 +253,10 @@
             <table class="no-border" style="margin-bottom: 1px;">
                 <tr>
                     <td style="width: 50%;" class="text-center">
-                        <div style="font-size: 7pt;">Nama</div>
-                        <div class="signature-box" style="width: 100px; margin: 0 auto;"></div>
+                        <div style="font-size: 12pt;">Nama</div>
                     </td>
                     <td style="width: 20%;" class="text-center">
-                        <div style="font-size: 7pt;">Tanggal</div>
-                        <div class="signature-box" style="width: 60px; margin: 0 auto;"></div>
+                        <div style="font-size: 12pt;">Tanggal</div>
                     </td>
                     <td style="width: 30%;" class="qrcode-container">
                         <div id="qrcode-<%=j%>" style="display: inline-block;"></div>
@@ -273,12 +268,11 @@
             <table class="no-border">
                 <tr>
                     <td style="width: 70%;" class="text-center">
-                        <div style="font-size: 7pt; font-weight: bold;">Kiriman ini sudah saya / kami terima dengan baik dan benar</div>
-                        <div style="font-size: 6pt; margin-top: 1px;">Pengirim menyatakan bahwa semua informasi pada Surat Tanda Terima Titipan adalah BENAR dan NERIMA seluruh syarat pengiriman.</div>
+                        <div style="font-size: 12pt; font-weight: bold;">Kiriman ini sudah saya / kami terima dengan baik dan benar</div>
+                        <div style="font-size: 11pt; margin-top: 2px;">Pengirim menyatakan bahwa semua informasi pada Surat Tanda Terima Titipan adalah BENAR dan NERIMA seluruh syarat pengiriman.</div>
                     </td>
                     <td style="width: 30%;" class="text-center">
-                        <div style="font-size: 7pt;">Jam</div>
-                        <div class="signature-box" style="width: 60px; margin: 0 auto;"></div>
+                        <div style="font-size: 12pt;">Jam</div>
                     </td>
                 </tr>
             </table>
@@ -300,8 +294,8 @@
         <% for(var j=0; j < 3; j++) {%>
             new QRCode(document.getElementById("qrcode-<%=j%>"), {
                 text: "<%=shipment.shipment_awbm%>",
-                width: 30,
-                height: 30,
+                width: 60,
+                height: 60,
                 colorDark: "#000000",
                 colorLight: "#ffffff",
                 correctLevel: QRCode.CorrectLevel.M
