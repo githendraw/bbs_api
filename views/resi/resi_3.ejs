@@ -2,8 +2,9 @@
 <html>
 <head>
     <title>Print Resi</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.3.0/paper.css">
     <style type="text/css">
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -23,9 +24,11 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif;
             font-size: 13pt;
             color: #000;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
         .page-container {
@@ -68,6 +71,7 @@
         .logo-img {
             width: auto;
             height: 50px;
+            display: block;
         }
 
         .company-title {
@@ -99,7 +103,7 @@
         }
 
         .total-row {
-            background-color: #ddd;
+            background-color: #ddd !important;
             font-weight: bold;
         }
 
@@ -109,7 +113,7 @@
             font-size: 12pt;
             font-weight: bold;
             text-align: center;
-            background-color: #ffffcc;
+            background-color: #ffffcc !important;
         }
 
         .footer-info {
@@ -125,7 +129,7 @@
             <!-- Header -->
             <table class="no-border" style="margin-bottom: 1px;">
                 <tr>
-                    <td style="width: 25%;" class="text-center">
+                    <td style="width: 25%; text-align: center;">
                         <img class="logo-img" src="data:image/png;base64,<%=img%>">
                     </td>
                     <td style="width: 50%;">
@@ -138,7 +142,7 @@
                         <div class="company-address">Email: <%=company.email%><% if (company.website) { %> | Website: <%=company.website%><% } %></div>
                     </td>
                     <td style="width: 25%; vertical-align: bottom; text-align: right;">
-                        <div style="font-size: 13pt; font-weight: bold; color: #000;">1.ISI TIDAK DIPERIKSA</div>
+                        <div style="font-size: 13pt; font-weight: bold; color: #000;">ISI TIDAK DIPERIKSA</div>
                     </td>
                 </tr>
             </table>
