@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon --inspect ./bin/www",
-        "start-prod": "pm2 start ./bin/www --name elogapi"
+        "start": "nodemon ./bin/www",
+        "start-prod": "pm2 start ./bin/www --name bbs_be"
     },
     "author": "",
     "license": "ISC",

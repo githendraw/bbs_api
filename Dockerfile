@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:16.20.0
 
 # Install fonts for PDF generation
 RUN apt-get update && \
