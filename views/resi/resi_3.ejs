@@ -305,6 +305,11 @@
                 correctLevel: QRCode.CorrectLevel.M
             });
         <% } %>
+
+        // Auto print after 2 seconds
+        setTimeout(function() {
+            window.print();
+        }, 2000);
     </script>
 </body>
 </html>

@@ -486,9 +486,9 @@ const printx = async (req, res, next) => {
                 filename:result,
                 link:`${url}/files/rpt/${result}`
             }}, 200);
-        
+
         case 'invoice':
-            result = await form.INVOICE(req);            
+            result = await form.INVOICE(req);
             console.log('====================================');
             console.log(result);
             console.log('====================================');
@@ -509,6 +509,44 @@ const printx = async (req, res, next) => {
        return errReturn(err)
     }
 }
+
+const printHtml = async (req, res, next) => {
+    const errReturn = function (message) {
+        return ReE(res, message, 403);
+      };
+    if (!req.query.report){
+        return errReturn('Jenis report yang di inginkan tidak ada');
+    };
+    if (req.query.report.toLowerCase() !== 'resi' || req.query.format !== 'RESI_3'){
+        return errReturn('HTML print hanya untuk RESI_3');
+    };
+    try {
+        let img = await imgTo64(path.join(path.dirname(fs.realpathSync(__filename)), '../../files/logo/logo_black.png'));
+        let shipmentData = await models.Shipment.findOne({
+            where: {shipment_awb:req.params.id},
+            include: [...mShipmentInclude(), {
+                model: models.Company,
+                as: "agen",
+                required: false,
+            }],
+        });
+        const pg = ejs.compile(fs.readFileSync(__dirname + '/../views/resi/resi_3.ejs', 'utf8'));
+        const html = pg({
+            img: img,
+            shipment: shipmentData,
+            detail: shipmentData.detail_reff,
+            company: shipmentData.agen,
+            currencyFormatter: currencyFormatter,
+            moment: moment
+        });
+        res.setHeader('Content-Type', 'text/html');
+        res.send(html);
+    } catch (err) {
+       return errReturn(err)
+    }
+}
+
 module.exports = {
-    printx
+    printx,
+    printHtml
 }

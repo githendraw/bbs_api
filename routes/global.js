@@ -41,6 +41,7 @@ router.group('/auth', (router) => {
 router.group('/', (router) => {
   router.post('/fileupload', globalVerify, FileController.fileUpload);
   router.get('/print/:id', globalVerify, PrintController.printx);
+  router.get('/print-html/:id', globalVerify, PrintController.printHtml);
   router.get('/tracing/:id', TracingController.tracingPublic);
   router.get('/global', globalVerify, GlobalController.defaultData);
 });
