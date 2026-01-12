@@ -306,9 +306,17 @@
             });
         <% } %>
 
-        // Auto print after 2 seconds
+        // Auto print after 2 seconds, then close tab
         setTimeout(function() {
             window.print();
+            // Close tab after print dialog is closed (user prints or cancels)
+            window.addEventListener('afterprint', function() {
+                window.close();
+            });
+            // Fallback: close after 3 seconds if afterprint doesn't fire
+            setTimeout(function() {
+                window.close();
+            }, 3000);
         }, 2000);
     </script>
 </body>
